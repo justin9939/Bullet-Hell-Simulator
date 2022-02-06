@@ -37,3 +37,12 @@ enjoyment that iFighter brought me. I also want to incorporate my
 Computer Science background into this game, to combine two of my 
 favorite things.
 
+## User Stories
+
+- As a user, I want to be able to view a controls screen on the main menu.
+- As a user, I want to be able to start a game, although it will be
+wholly text based for now.
+- As a user, I want to be able to fire a bullet, adding it to a list of bullets 
+of an arbitrary size currently onscreen.
+- As a user, I want to be able to collect upgrades up to a maximum limit of 8.
+- As a user, I want to be able to change my weapon type from 2 choices.
