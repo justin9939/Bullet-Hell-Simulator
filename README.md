@@ -46,3 +46,4 @@ wholly text based for now.
 of an arbitrary size currently onscreen.
 - As a user, I want to be able to collect upgrades up to a maximum limit of 8.
 - As a user, I want to be able to change my weapon type from 2 choices.
+- As a user, I want to be able to collect and use bombs (the firewall).
