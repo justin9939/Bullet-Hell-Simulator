@@ -39,11 +39,12 @@ favorite things.
 
 ## User Stories
 
-- As a user, I want to be able to view a controls screen on the main menu.
+- As a user, I want to be able to view the controls from the main menu.
 - As a user, I want to be able to start a game, although it will be
 wholly text based for now.
-- As a user, I want to be able to fire a bullet, adding it to a list of bullets 
-of an arbitrary size currently onscreen.
+- As a user, I want to be able to simulate enemies firing bullets, adding the
+  bullet to a field in the game class.
 - As a user, I want to be able to collect upgrades up to a maximum limit of 8.
 - As a user, I want to be able to change my weapon type from 2 choices.
-- As a user, I want to be able to collect and use bombs (the firewall).
+- As a user, I want to be able to collect and use bombs (the firewall), which
+  will clear all bullets from the game.

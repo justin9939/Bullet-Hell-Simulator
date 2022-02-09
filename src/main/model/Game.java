@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 // represents the game state
 public class Game {
 
@@ -11,19 +13,18 @@ public class Game {
         // stub
     } // Game
 
-    // REQUIRES: level > 0, type either "streamline" or "spread"
     // MODIFIES: this
-    // EFFECTS: fires different amounts of bullets depending on the player's upgrade
-    //          level or weapon type.
-    public void shoot(int level, String type) {
+    // EFFECTS: an enemy attacks from a random position, firing a bullet that is added to the game.
+    public void enemyFire() {
         // stub
-    } // shoot
+    } // enemyFire
 
     // REQUIRES: firewallAmount > 0
     // MODIFIES: this
     // EFFECTS: uses the firewall, damaging all enemies and erasing all bullets on screen.
-    public void useFirewall() {
-        // stub
+    //          fails if the player has no firewalls.
+    public boolean useFirewall() {
+        return false; // stub
     } // useFirewall
 
     // MODIFIES: this
@@ -48,8 +49,8 @@ public class Game {
         return 0; // stub
     } // getUpgrades
 
-    public int getBullets() {
-        return 0; // stub
+    public List<Bullet> getBullets() {
+        return null; // stub
     } // getBullets
 
     public int getFirewalls() {

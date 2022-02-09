@@ -35,17 +35,12 @@ class GameTest {
     } // collectFirewallTest
 
     @Test
-    void shootTestStreamline() {
-        // stub
-    } // shootTestStreamline
-
-    @Test
-    void shootTestSpread() {
-        // stub
-    } // shootTestSpread
-
-    @Test
     void useFirewallTest() {
+        // stub
+    } // useFirewalLTest
+
+    @Test
+    void useFirewallTestFail() {
         // stub
     } // useFirewalLTest
 
