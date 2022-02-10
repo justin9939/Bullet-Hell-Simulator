@@ -19,28 +19,28 @@ class GameTest {
         assertEquals(1, testGame.getUpgrades());
         assertEquals(0, testGame.getFirewalls());
         assertEquals("streamlined", testGame.getWeaponType());
-        assertEquals(0, testGame.getBullets().size());
+        assertEquals(0, testGame.getHazards().size());
     } // constructorTest
 
     @Test
     void enemyFireTest() {
-        assertEquals(0, testGame.getBullets().size());
+        assertEquals(0, testGame.getHazards().size());
 
         testGame.enemyFire();
 
-        assertEquals(1, testGame.getBullets().size());
+        assertEquals(1, testGame.getHazards().size());
         // should I test the properties of bullet in here?
 
         testGame.enemyFire();
         testGame.enemyFire();
 
-        assertEquals(3, testGame.getBullets().size());
+        assertEquals(3, testGame.getHazards().size());
 
-        while(testGame.getBullets().size() < 10) {
+        while(testGame.getHazards().size() < 10) {
             testGame.enemyFire();
         } // while
 
-        assertEquals(10, testGame.getBullets().size());
+        assertEquals(10, testGame.getHazards().size());
     } // enemyFireTest
 
     @Test
@@ -114,7 +114,7 @@ class GameTest {
     @Test
     void useFirewallClearBulletsTest() {
         assertEquals(0, testGame.getFirewalls());
-        assertEquals(0, testGame.getBullets().size());
+        assertEquals(0, testGame.getHazards().size());
 
         testGame.collectFirewall();
         testGame.collectFirewall();
@@ -122,10 +122,10 @@ class GameTest {
         testGame.enemyFire();
 
         assertEquals(3, testGame.getFirewalls());
-        assertEquals(1, testGame.getBullets().size());
+        assertEquals(1, testGame.getHazards().size());
 
         assertTrue(testGame.useFirewall());
-        assertEquals(0, testGame.getBullets().size());
+        assertEquals(0, testGame.getHazards().size());
         assertEquals(2, testGame.getFirewalls());
 
         testGame.enemyFire();
@@ -133,7 +133,7 @@ class GameTest {
         testGame.collectFirewall();
         testGame.collectFirewall();
 
-        assertEquals(0, testGame.getBullets().size());
+        assertEquals(0, testGame.getHazards().size());
         assertEquals(3, testGame.getFirewalls());
     } // useFirewallClearBulletsTest
 
