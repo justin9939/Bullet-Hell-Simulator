@@ -5,7 +5,11 @@ import java.util.ArrayList;
 // represents the game state
 public class Game {
 
-    // fields go here
+    // constants
+    public static final int MAX_FIREWALLS = 3;
+    public static final int MAX_UPGRADE_LEVEL = 8;
+
+    // fields
     private ArrayList<Bullet> hazards;
     private Bullet enemyShot;
     private String weaponType;
@@ -15,7 +19,7 @@ public class Game {
     // EFFECTS: creates a new game, where the game starts with no bullets, and the player starts with streamlined
     //          weapon type, one upgrade level, and no firewalls
     public Game() {
-        this.hazards = new ArrayList<Bullet>();
+        this.hazards = new ArrayList<>();
         this.weaponType = "streamlined";
         this.upgradeLevel = 1;
         this.firewalls = 0;
@@ -45,7 +49,7 @@ public class Game {
     // EFFECTS: increases the upgrade level by 1, up to a max of 8
     //          no effect if upgrade level is already 8
     public void collectUpgrade() {
-        if (this.upgradeLevel < 8) {
+        if (this.upgradeLevel < MAX_UPGRADE_LEVEL) {
             this.upgradeLevel += 1;
         } // if
     } // collectUpgrade
@@ -54,13 +58,11 @@ public class Game {
     // EFFECTS: increases the amount of firewalls by 1, up to a max of 3
     //          immediately uses a firewall if firewall amount is already 3
     public void collectFirewall() {
-        if (this.firewalls < 3) {
-            this.firewalls += 1;
-        } else {
-            // cannot fit any more firewalls, so use one and immediately restore it
+        if (this.firewalls == MAX_FIREWALLS) {
+            // cannot fit any more firewalls, so use one and immediately restore it afterwards
             useFirewall();
-            this.firewalls += 1;
-        } // if... else
+        } // if
+        this.firewalls += 1;
     } // collectFirewall
 
     // MODIFIES: this
@@ -73,19 +75,19 @@ public class Game {
         } // if... else
     } // changeWeaponType
 
-    public int getUpgrades() {
+    public int getUpgradeLevel() {
         return this.upgradeLevel;
     } // getUpgrades
 
     public ArrayList<Bullet> getHazards() {
-        return this.hazards; // stub
+        return this.hazards;
     } // getBullets
 
     public int getFirewalls() {
-        return this.firewalls; // stub
-    }
+        return this.firewalls;
+    } // getFirewalls
 
     public String getWeaponType() {
-        return this.weaponType; // stub
-    }
+        return this.weaponType;
+    } // getWeaponType
 } // Game

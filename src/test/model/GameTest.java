@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
 
     Game testGame;
+    int maxFirewalls = Game.MAX_FIREWALLS;
+    int maxUpgradeLevel = Game.MAX_UPGRADE_LEVEL;
 
     @BeforeEach
     void setUp() {
@@ -16,7 +18,7 @@ class GameTest {
 
     @Test
     void constructorTest() {
-        assertEquals(1, testGame.getUpgrades());
+        assertEquals(1, testGame.getUpgradeLevel());
         assertEquals(0, testGame.getFirewalls());
         assertEquals("streamlined", testGame.getWeaponType());
         assertEquals(0, testGame.getHazards().size());
@@ -56,27 +58,27 @@ class GameTest {
 
     @Test
     void collectUpgradeTest() {
-        assertEquals(1, testGame.getUpgrades());
+        assertEquals(1, testGame.getUpgradeLevel());
 
         testGame.collectUpgrade();
 
-        assertEquals(2, testGame.getUpgrades());
+        assertEquals(2, testGame.getUpgradeLevel());
 
         testGame.collectUpgrade();
         testGame.collectUpgrade();
 
-        assertEquals(4, testGame.getUpgrades());
+        assertEquals(4, testGame.getUpgradeLevel());
 
         testGame.collectUpgrade();
         testGame.collectUpgrade();
         testGame.collectUpgrade();
         testGame.collectUpgrade();
 
-        assertEquals(8, testGame.getUpgrades());
+        assertEquals(maxUpgradeLevel, testGame.getUpgradeLevel());
 
         testGame.collectUpgrade();
 
-        assertEquals(8, testGame.getUpgrades());
+        assertEquals(maxUpgradeLevel, testGame.getUpgradeLevel());
     } // collectUpgradeTest
 
     @Test
@@ -90,11 +92,11 @@ class GameTest {
         testGame.collectFirewall();
         testGame.collectFirewall();
 
-        assertEquals(3, testGame.getFirewalls());
+        assertEquals(maxFirewalls, testGame.getFirewalls());
 
         testGame.collectFirewall();
 
-        assertEquals(3, testGame.getFirewalls());
+        assertEquals(maxFirewalls, testGame.getFirewalls());
     } // collectFirewallTest
 
     @Test
@@ -121,7 +123,7 @@ class GameTest {
         testGame.collectFirewall();
         testGame.enemyFire();
 
-        assertEquals(3, testGame.getFirewalls());
+        assertEquals(maxFirewalls, testGame.getFirewalls());
         assertEquals(1, testGame.getHazards().size());
 
         assertTrue(testGame.useFirewall());
@@ -134,7 +136,7 @@ class GameTest {
         testGame.collectFirewall();
 
         assertEquals(0, testGame.getHazards().size());
-        assertEquals(3, testGame.getFirewalls());
+        assertEquals(maxFirewalls, testGame.getFirewalls());
     } // useFirewallClearBulletsTest
 
 } // GameTest

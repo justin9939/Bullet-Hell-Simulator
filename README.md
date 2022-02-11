@@ -1,5 +1,5 @@
 # My Personal Project: 
-## Windows Fighters x64 
+## Windows Fighter x64 
 
 ***What will it do?***
 
@@ -13,9 +13,9 @@ The player must:
 
 There will be a set number of implemented levels, each with 
 a unique pattern of enemies, and a unique boss. As the name is a
-pun on the Windows x64 system, the game will be computer 
-themed. The player will control an antivirus icon, enemies will be 
-things like bugs and errors, and bosses will be viruses.
+pun on the Windows x64 system and the Windows Defender antivirus, 
+the game will be computer themed. The player will control an antivirus icon, 
+enemies will be things like bugs and errors, and bosses will be viruses.
 
 
 ***Who will use it?***
@@ -43,8 +43,8 @@ favorite things.
 - As a user, I want to be able to start a game, although it will be
 wholly text based for now.
 - As a user, I want to be able to simulate enemies firing bullets, adding the
-  bullet to a field in the game class.
+  bullet to a "hazards" field in the game class.
 - As a user, I want to be able to collect upgrades up to a maximum limit of 8.
 - As a user, I want to be able to change my weapon type from 2 choices.
 - As a user, I want to be able to collect and use bombs (the firewall), which
-  will clear all bullets from the game.
+  will clear all hazards from the game.
