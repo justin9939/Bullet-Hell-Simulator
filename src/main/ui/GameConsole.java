@@ -4,18 +4,19 @@ import model.Game;
 
 import java.util.Scanner;
 
+// user interface of the game - what the user will see when playing
 public class GameConsole {
     private Game gameInstance;
     private Scanner input;
     private boolean continueGame;
 
-    // EFFECTS: runs an instance of the game
+    // EFFECTS: runs an instance of the entire game
     public GameConsole() {
         runGame();
     } // GameConsole
 
     // MODIFIES: this
-    // EFFECTS: runs an instance of the game, and processes user input
+    // EFFECTS: runs an instance of the entire game, and processes user input
     // code is based on the runTeller method in TellerApp.java
     public void runGame() {
         continueGame = true;
@@ -54,7 +55,7 @@ public class GameConsole {
         input.useDelimiter("\n");
     } // init
 
-    // EFFECTS: displays a menu on the console, with instructions and controls
+    // EFFECTS: displays the main menu on the console, with instructions and controls
     public void displayMenu() {
         System.out.println("\nWelcome to Windows Fighter x64!");
         System.out.println("Remember to press enter to submit your input!");
@@ -88,7 +89,7 @@ public class GameConsole {
         } // while
     } // runControls
 
-    // EFFECTS: displays the controls on the console
+    // EFFECTS: displays the controls screen on the console
     public void displayControls() {
         System.out.println("\nRight now, the only possible actions to take are all by typed input, "
                 + "so these controls are unavailable.");
@@ -100,8 +101,8 @@ public class GameConsole {
     } // displayControls
 
     // MODIFIES: this
-    // EFFECTS: starts a "play through" of the game
-    // checkstyle warning suppressed because the length is mostly due to the range of user input
+    // EFFECTS: runs an instance of the playable part of the game, and processes a wider variety of user inputs
+    // checkstyle warning suppressed because the length is mostly due to the range of user input options
     @SuppressWarnings("methodlength")
     public void playGame() {
         boolean onGame = true;
@@ -141,7 +142,7 @@ public class GameConsole {
         } // while
     } // playGame
 
-    // EFFECTS: displays the console-based game
+    // EFFECTS: displays the "playable" part of the (console-based for now) game
     public void displayGame() {
         System.out.println("\nYou are cruising through cyberspace."); // stub
         System.out.println("\t m - Return to main menu");
@@ -177,7 +178,7 @@ public class GameConsole {
     } // doCollectFirewall
 
     // MODIFIES: this
-    // EFFECTS: collects an upgrade, has no effect if player already is at upgrade level 8
+    // EFFECTS: collects an upgrade, and has no effect if player already is at upgrade level 8
     public void doCollectUpgrade() {
         if (gameInstance.getUpgradeLevel() < Game.MAX_UPGRADE_LEVEL) {
             System.out.println("Wow! You collected an upgrade, increasing your upgrade level!");
@@ -189,7 +190,8 @@ public class GameConsole {
     } // doCollectUpgrade
 
     // MODIFIES: this
-    // EFFECTS: uses a Firewall, clearing all hazards on screen
+    // EFFECTS: uses a Firewall, clearing all hazards currently in the game
+    //          fails if the player has on firewalls
     public void doUseFirewall() {
         if (gameInstance.useFirewall()) {
             System.out.println("You used a firewall, clearing the screen of all hazards.");
@@ -201,14 +203,14 @@ public class GameConsole {
     } // doUseFirewall
 
     // MODIFIES: this
-    // EFFECTS: changes the player's weapon type to the opposite type
+    // EFFECTS: changes the player's current weapon type to the opposite type
     public void doChangeWeaponType() {
         System.out.println("You changed your weapon type.");
         gameInstance.changeWeaponType();
         printWeaponType(gameInstance);
     } // doChangeWeaponType
 
-    // EFFECTS: prints the amount of hazards currently on screen
+    // EFFECTS: prints the amount of hazards currently in the game
     public void printHazards(Game game) {
         System.out.println("Amount of hazards (only bullets for now) on screen: "
                 + game.getHazards().size());

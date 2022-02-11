@@ -1,5 +1,6 @@
 package model;
 
+// hazardous bullets fired from enemy units
 public class Bullet {
 
     private int damage;
