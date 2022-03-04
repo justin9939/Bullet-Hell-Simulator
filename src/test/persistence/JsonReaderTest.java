@@ -41,8 +41,8 @@ public class JsonReaderTest extends JsonTest {
         try {
             Game game = reader.read();
             checkWeaponType("spread", game);
-            checkUpgradeLevel(6, game);
-            checkFirewallAmount(2, game);
+            checkUpgradeLevel(8, game);
+            checkFirewallAmount(3, game);
             checkHazards(9, game);
         } catch (IOException e) {
             fail("Couldn't read from file");
