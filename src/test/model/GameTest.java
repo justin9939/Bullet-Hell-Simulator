@@ -139,4 +139,24 @@ class GameTest {
         assertEquals(maxFirewalls, testGame.getFirewalls());
     } // useFirewallClearBulletsTest
 
+    @Test
+    void newGameTest() {
+        testGame.collectUpgrade();
+        testGame.collectFirewall();
+        testGame.changeWeaponType();
+        testGame.enemyFire();
+
+        assertEquals(2, testGame.getUpgradeLevel());
+        assertEquals(1, testGame.getFirewalls());
+        assertEquals("spread", testGame.getWeaponType());
+        assertEquals(1, testGame.getHazards().size());
+
+        testGame.newGame();
+
+        assertEquals(1, testGame.getUpgradeLevel());
+        assertEquals(0, testGame.getFirewalls());
+        assertEquals("streamline", testGame.getWeaponType());
+        assertEquals(0, testGame.getHazards().size());
+    } // newGameTest
+
 } // GameTest
