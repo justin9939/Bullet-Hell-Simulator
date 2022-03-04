@@ -1,9 +1,12 @@
 package model;
 
+import org.json.*;
+import persistence.Writable;
+
 import java.util.ArrayList;
 
 // represents the game state
-public class Game {
+public class Game implements Writable {
 
     // constants
     public static final int MAX_FIREWALLS = 3;
@@ -74,6 +77,16 @@ public class Game {
             this.weaponType = "streamlined";
         } // if... else
     } // changeWeaponType
+
+    @Override
+    public JSONObject toJson() {
+        return null; // stub
+    }
+
+    // EFFECTS: returns game state elements as a JSON Array
+    private JSONArray saveGameAsJson() {
+        return null; // stub
+    }
 
     public int getUpgradeLevel() {
         return this.upgradeLevel;

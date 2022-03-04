@@ -48,3 +48,7 @@ wholly text based for now.
 - As a user, I want to be able to change my weapon type from 2 choices.
 - As a user, I want to be able to collect and use bombs (the firewall), which
   will clear all hazards from the game.
+- As a user, I want the current state of the game (upgrade level, weapon type,
+  firewall amount, amount of hazards) automatically when I exit the game.
+- As a user, on the main menu, I want the option to either load the previous 
+  saved game or start a new game.

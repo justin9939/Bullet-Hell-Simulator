@@ -1,7 +1,10 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 // hazardous bullets fired from enemy units
-public class Bullet {
+public class Bullet implements Writable {
 
     private int damage;
     private int positionX;
@@ -26,4 +29,9 @@ public class Bullet {
     public int getDamage() {
         return this.damage;
     } // getDamage
+
+    @Override
+    public JSONObject toJson() {
+        return null; // stub
+    }
 }
