@@ -18,7 +18,7 @@ public class GameConsole {
     private JsonReader jsonReader;
 
     // EFFECTS: runs an instance of the entire game
-    public GameConsole() {
+    public GameConsole() throws FileNotFoundException {
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
         runGame();
