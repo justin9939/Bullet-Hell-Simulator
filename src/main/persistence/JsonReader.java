@@ -1,7 +1,6 @@
 package persistence;
 
 import model.Game;
-import model.Bullet;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -18,14 +17,16 @@ public class JsonReader {
 
     // EFFECTS: constructs a reader to read from given source file
     public JsonReader(String source) {
-        // stub
-    }
+        this.sourceFile = source;
+    } // JsonReader
 
     // EFFECTS: reads game data from source files and returns it, throwing an IOException
     //          if an error occurs while reading data from the file
     public Game read() throws IOException {
-        return null; // stub
-    }
+        String jsonData = readFile(sourceFile);
+        JSONObject jsonObject = new JSONObject(jsonData);
+        return parseGame(jsonObject);
+    } // read
 
     // EFFECTS: reads source file as string and returns it, throwing an IOException
     //          if an error occurs while reading data from the file
@@ -33,30 +34,65 @@ public class JsonReader {
     private String readFile(String source) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
 
-        try (Stream<String> stream = Files.lines( Paths.get(source), StandardCharsets.UTF_8)) {
+        try (Stream<String> stream = Files.lines(Paths.get(source), StandardCharsets.UTF_8)) {
             stream.forEach(s -> contentBuilder.append(s));
-        }
+        } // try
 
         return contentBuilder.toString();
-    }
+    } // readFile
 
     // EFFECTS: parses a game state from given JSON object and returns it
     private Game parseGame(JSONObject jsonObject) {
-        return null; // stub
-    }
+        Game game = new Game();
+
+        loadWeaponType(game, jsonObject);
+        loadUpgradeLevel(game, jsonObject);
+        loadFirewalls(game, jsonObject);
+        loadHazards(game, jsonObject);
+
+        return game;
+    } // parseGame
 
     // MODIFIES: game
-    // EFFECTS: parses all savable aspects of a game state from given JSON object and adds it to
-    //          the given game state
-    private void loadAllGameStates() {
-        // stub
-    }
+    // EFFECTS: parses the current weapon type from given JSON object and
+    //          adds it to the given game state
+    private void loadWeaponType(Game game, JSONObject jsonObject) {
+        String type = jsonObject.getString("weaponType");
+        if (!game.getWeaponType().equals(type)) {
+            game.changeWeaponType();
+        } // if
+    } // loadWeaponType
 
     // MODIFIES: game
-    // EFFECTS: parses a single savable aspect of a game state from given JSON object and adds it to
-    //          the given game state
-    private void loadGameState() {
-        // stub
-    }
+    // EFFECTS: parses the current upgrade level from given JSON object and
+    //          adds it to the given game state
+    private void loadUpgradeLevel(Game game, JSONObject jsonObject) {
+        int level = jsonObject.getInt("upgradeLevel");
+        for (int current = game.getUpgradeLevel(); current < level; current++) {
+            game.collectUpgrade();
+        } // for
+    } // loadUpgradeLevel
 
-}
+    // MODIFIES: game
+    // EFFECTS: parses the current firewall amount from given JSON object and
+    //          adds it to the given game state
+    private void loadFirewalls(Game game, JSONObject jsonObject) {
+        int firewalls = jsonObject.getInt("firewalls");
+        for (int current = game.getFirewalls(); current < firewalls; current++) {
+            game.collectFirewall();
+        } // for
+    } // loadFirewalls
+
+    // MODIFIES: game
+    // EFFECTS: parses the current hazards (enemy bullets) from given JSON object and
+    //          adds it to the given game state
+    private void loadHazards(Game game, JSONObject jsonObject) {
+        int hazards = jsonObject.getInt("hazards");
+        for (int current = game.getHazards().size(); current < hazards; current++) {
+            game.enemyFire();
+        } // for
+    } // loadHazards
+} // JsonReader
+
+
+

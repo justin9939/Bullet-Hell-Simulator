@@ -49,6 +49,10 @@ wholly text based for now.
 - As a user, I want to be able to collect and use bombs (the firewall), which
   will clear all hazards from the game.
 - As a user, I want the current state of the game (upgrade level, weapon type,
-  firewall amount, amount of hazards) automatically when I exit the game.
+  firewall amount, amount of hazards) to save after returning to the main menu.
 - As a user, on the main menu, I want the option to either load the previous 
   saved game or start a new game.
+
+NOTE: In the final game, hazards will not be saved. Instead, the game will save
+at a "checkpoint" in a level, and starting a game there will give a brief grace period 
+where there are no enemies.

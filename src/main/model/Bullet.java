@@ -4,7 +4,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 // hazardous bullets fired from enemy units
-public class Bullet implements Writable {
+public class Bullet {
 
     private int damage;
     private int positionX;
@@ -29,9 +29,4 @@ public class Bullet implements Writable {
     public int getDamage() {
         return this.damage;
     } // getDamage
-
-    @Override
-    public JSONObject toJson() {
-        return null; // stub
-    }
-}
+} // Bullet

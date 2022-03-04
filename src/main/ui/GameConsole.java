@@ -1,23 +1,34 @@
 package ui;
 
 import model.Game;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 // user interface of the game - what the user will see when playing
 public class GameConsole {
+    private static final String JSON_STORE = "./data/savedGame.json";
     private Game gameInstance;
     private Scanner input;
     private boolean continueGame;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: runs an instance of the entire game
     public GameConsole() {
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         runGame();
     } // GameConsole
 
     // MODIFIES: this
     // EFFECTS: runs an instance of the entire game, and processes user input
     // code is based on the runTeller method in TellerApp.java
+    // checkstyle warning suppressed because the length is mostly due to the range of user input options
+    @SuppressWarnings("methodlength")
     public void runGame() {
         continueGame = true;
         String userInput;
@@ -36,7 +47,11 @@ public class GameConsole {
                     runControls();
                     break;
                 case "s":
+                    gameInstance.newGame();
                     playGame();
+                    break;
+                case "l":
+                    loadGame();
                     break;
                 default:
                     System.out.println("Invalid input. Please try again.");
@@ -60,7 +75,8 @@ public class GameConsole {
         System.out.println("\nWelcome to Windows Fighter x64!");
         System.out.println("Remember to press enter to submit your input!");
         System.out.println("\t Type in 'c' for the controls.");
-        System.out.println("\t Type in 's' to start the game.");
+        System.out.println("\t Type in 's' to start a new game.");
+        System.out.println("\t Type in 'l' to load a previous save, if one exists.");
         System.out.println("\t Type in 'q' to quit.");
     } // displayMenu
 
@@ -114,6 +130,7 @@ public class GameConsole {
 
             switch (userInput) {
                 case "m":
+                    saveGame();
                     onGame = false;
                     break;
                 case "q":
@@ -145,8 +162,8 @@ public class GameConsole {
     // EFFECTS: displays the "playable" part of the (console-based for now) game
     public void displayGame() {
         System.out.println("\nYou are cruising through cyberspace."); // stub
-        System.out.println("\t m - Return to main menu");
-        System.out.println("\t q - Quit the game");
+        System.out.println("\t m - Save and return to main menu");
+        System.out.println("\t q - Quit the game without saving");
         System.out.println("\t shoot - Simulate an enemy shooting at you");
         System.out.println("\t cf - Collect a firewall");
         System.out.println("\t cu - Collect an upgrade");
@@ -230,5 +247,30 @@ public class GameConsole {
     public void printWeaponType(Game game) {
         System.out.println("Your weapon type is: " + game.getWeaponType());
     } // printWeaponType
+
+    // EFFECTS: saves the current game state to file
+    private void saveGame() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(gameInstance);
+            jsonWriter.close();
+            System.out.println("Saved game to: " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        } // try... catch
+    } // saveGame
+
+    // MODIFIES: this
+    // EFFECTS: loads game state from file
+    private void loadGame() {
+        try {
+            gameInstance = jsonReader.read();
+            System.out.println("Loaded game from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        } // try... catch
+
+        playGame();
+    } // loadGame
 
 } // GameConsole

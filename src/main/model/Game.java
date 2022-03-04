@@ -80,13 +80,22 @@ public class Game implements Writable {
 
     @Override
     public JSONObject toJson() {
-        return null; // stub
-    }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("weaponType", getWeaponType());
+        jsonObject.put("upgradeLevel", getUpgradeLevel());
+        jsonObject.put("firewalls", getFirewalls());
+        jsonObject.put("hazards", getHazards().size());
+        return jsonObject; // stub
+    } // toJson
 
-    // EFFECTS: returns game state elements as a JSON Array
-    private JSONArray saveGameAsJson() {
-        return null; // stub
-    }
+    // MODIFIES: this
+    // EFFECTS: resets all relevant fields in game to their initial states for a new game
+    public void newGame() {
+        this.hazards.clear();
+        this.weaponType = "streamlined";
+        this.upgradeLevel = 1;
+        this.firewalls = 0;
+    } // newGame
 
     public int getUpgradeLevel() {
         return this.upgradeLevel;
