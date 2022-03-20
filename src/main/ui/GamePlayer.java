@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 // user interface of the game - what the user will see when playing
-public class GameConsole {
+public class GamePlayer {
     private static final String JSON_STORE = "./data/savedGame.json";
     private Game gameInstance;
     private Scanner input;
@@ -18,7 +18,7 @@ public class GameConsole {
     private JsonReader jsonReader;
 
     // EFFECTS: runs an instance of the entire game
-    public GameConsole() throws FileNotFoundException {
+    public GamePlayer() throws FileNotFoundException {
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
         runGame();
