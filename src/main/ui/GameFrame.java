@@ -4,6 +4,9 @@ import model.Game;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -11,13 +14,15 @@ import javax.swing.*;
 import java.awt.*;
 
 // main frame where the entire program is displayed
-public class GameFrame extends JFrame {
+public class GameFrame extends JFrame implements ActionListener {
     public static final int GAME_WINDOW_WIDTH = 550;
     public static final int GAME_WINDOW_HEIGHT = 650;
     private static final int BUTTON_WIDTH = 150;
     private static final int BUTTON_HEIGHT = 30;
-    private static final int FONT_SIZE = 10;
+    private static final int FONT_SIZE = 12;
     private static final String JSON_STORE = "./data/savedGame.json";
+
+    private boolean loadSave;
 
     private Game gameInstance;
     private JsonWriter jsonWriter;
@@ -54,18 +59,93 @@ public class GameFrame extends JFrame {
         this.setSize(GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
         this.setResizable(false);
 
-        loadGame();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+
+        initializeButtons();
+        loadMenu();
         this.setVisible(true);
     } // GameFrame
+
+    // EFFECTS: adds action listeners and commands to all buttons
+    public void initializeButtons() {
+        newGame.setActionCommand("new");
+        loadGame.setActionCommand("load");
+        controls.setActionCommand("controls");
+        enemyFire.setActionCommand("fire");
+        upgrade.setActionCommand("upgrade");
+        changeWeapon.setActionCommand("weapon");
+        collectFirewall.setActionCommand("collect");
+        useFirewall.setActionCommand("use");
+        saveAndExit.setActionCommand("save");
+
+        newGame.addActionListener(this);
+        loadGame.addActionListener(this);
+        controls.addActionListener(this);
+        enemyFire.addActionListener(this);
+        upgrade.addActionListener(this);
+        changeWeapon.addActionListener(this);
+        collectFirewall.addActionListener(this);
+        useFirewall.addActionListener(this);
+        saveAndExit.addActionListener(this);
+    } // initializeButtons
+
+    // MODIFIES: this
+    // EFFECTS: determines and performs an action depending on what button is pressed
+    // checkstyle warning suppressed because the length is mostly due to the range of user input options
+    @SuppressWarnings("methodlength")
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        switch (e.getActionCommand()) {
+            case "new":
+                loadSave = false;
+                try {
+                    loadGame();
+                } catch (FileNotFoundException ex) {
+                    System.out.println("Unable to run game: File not found");
+                } // try... catch
+                break;
+            case "load":
+                loadSave = true;
+                try {
+                    loadGame();
+                } catch (FileNotFoundException ex) {
+                    System.out.println("Unable to run game: File not found");
+                } // try... catch
+                break;
+            case "controls":
+                loadControls();
+                break;
+            case "fire":
+                doEnemyFire();
+                break;
+            case "upgrade":
+                doUpgrade();
+                break;
+            case "weapon":
+                doChangeWeaponType();
+                break;
+            case "collect":
+                doCollectFirewall();
+                break;
+            case "use":
+                doUseFirewall();
+                break;
+            case "save":
+                doSaveAndExit();
+        } // switch
+    } // actionPerformed
 
     // MODIFIES: this
     // EFFECTS: loads the main menu and its buttons
     public void loadMenu() {
         // System.out.println("Loaded menu");
         this.getContentPane().removeAll();
-        this.add(new BackgroundPanel("data/menuImage.jpg"));
+        this.add(new BackgroundPanel("data/menuImage.jpg", GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT));
+
         createMenu();
         this.add(menuScreen);
+        this.revalidate();
         this.repaint();
     } // loadMenu
 
@@ -74,15 +154,11 @@ public class GameFrame extends JFrame {
         menuScreen = new JPanel();
         menuScreen.setBounds(0, 0, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
         menuScreen.setLayout(null);
-        addButton(menuScreen, newGame, 200, 220);
-        addButton(menuScreen, loadGame, 200, 310); // bug - load and controls only appears when mouse hover
-        addButton(menuScreen, controls, 200, 400);
+        addButton(menuScreen, newGame, 200, 225, BUTTON_WIDTH, BUTTON_HEIGHT);
+        addButton(menuScreen, loadGame, 200, 315, BUTTON_WIDTH + 20, BUTTON_HEIGHT);
+        addButton(menuScreen, controls, 200, 405, BUTTON_WIDTH, BUTTON_HEIGHT);
+        menuScreen.setOpaque(false);
     } // createMenu
-
-    // EFFECTS: adds action listeners to all buttons on the menu
-    public void initializeMenuButtons() {
-        // TODO: need help for adding multiple action listeners
-    }
 
     // MODIFIES: this
     // EFFECTS: loads the controls screen and its text and buttons
@@ -93,12 +169,26 @@ public class GameFrame extends JFrame {
 
     // MODIFIES: this
     // EFFECTS: loads the game screen and its buttons
-    public void loadGame() {
+    //          loads a saved game if loadSave is true
+    public void loadGame() throws FileNotFoundException {
         //System.out.println("Loaded game"); // stub
         this.getContentPane().removeAll();
-        //this.add(new BackgroundPanel("data/gameImage.jpg"));
+        this.add(new BackgroundPanel("data/gameImage.jpg", GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT - 65));
+
+        if (loadSave) {
+            try {
+                gameInstance = jsonReader.read();
+                System.out.println("Loaded game from " + JSON_STORE);
+            } catch (IOException e) {
+                System.out.println("Unable to read from file: " + JSON_STORE);
+            } // try... catch
+        } else {
+            gameInstance = new Game();
+        } // if... else
+
         createGame();
         this.add(gameScreen);
+        this.revalidate();
         this.repaint();
     } // loadGame
 
@@ -108,10 +198,10 @@ public class GameFrame extends JFrame {
         gameScreen.setBounds(0, 0, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
         gameScreen.setLayout(new BorderLayout());
         createStats();
-        gameScreen.add(statsBar, BorderLayout.NORTH);
+        gameScreen.add(statsBar, BorderLayout.SOUTH);
 
         createOperations();
-        gameScreen.add(operationsBar, BorderLayout.SOUTH);
+        gameScreen.add(operationsBar, BorderLayout.NORTH);
     } // createGame
 
     // EFFECTS: creates the bar showing player stats in the game on the top edge
@@ -120,32 +210,32 @@ public class GameFrame extends JFrame {
         statsBar = new JPanel();
         statsBar.setBackground(new Color(180, 180, 180));
         statsBar.setLayout(new FlowLayout());
-        hazardsOnScreen = new JLabel("Enemy bullets: " /*+ gameInstance.getHazards()*/);
+        hazardsOnScreen = new JLabel("Enemy bullets: " + gameInstance.getHazards().size());
         hazardsOnScreen.setFont(new Font("Serif", Font.PLAIN, FONT_SIZE));
         hazardsOnScreen.setForeground(Color.red);
-        upgradeLevel = new JLabel("Upgrade level: " /*+ gameInstance.getUpgradeLevel()*/);
+        upgradeLevel = new JLabel("Upgrade level: " + gameInstance.getUpgradeLevel());
         upgradeLevel.setFont(new Font("Serif", Font.PLAIN, FONT_SIZE));
         upgradeLevel.setForeground(Color.yellow);
-        weaponType = new JLabel("Weapon type: " /*+ gameInstance.getWeaponType()*/);
+        weaponType = new JLabel("Weapon type: " + gameInstance.getWeaponType());
         weaponType.setFont(new Font("Serif", Font.PLAIN, FONT_SIZE));
         weaponType.setForeground(Color.green);
-        firewallAmount = new JLabel("Firewalls: " /*+ gameInstance.getFirewalls()*/);
+        firewallAmount = new JLabel("Firewalls: " + gameInstance.getFirewalls());
         firewallAmount.setFont(new Font("Serif", Font.PLAIN, FONT_SIZE));
         firewallAmount.setForeground(Color.orange);
 
         statsBar.add(hazardsOnScreen);
-        statsBar.add(Box.createHorizontalStrut(10));
+        statsBar.add(Box.createHorizontalStrut(30));
         statsBar.add(upgradeLevel);
-        statsBar.add(Box.createHorizontalStrut(10));
+        statsBar.add(Box.createHorizontalStrut(30));
         statsBar.add(weaponType);
-        statsBar.add(Box.createHorizontalStrut(10));
+        statsBar.add(Box.createHorizontalStrut(30));
         statsBar.add(firewallAmount);
     } // createOperations
 
     // EFFECTS: creates the button panel for operations in the game on the bottom edge
     public void createOperations() {
         operationsBar = new JPanel();
-        operationsBar.setLayout(new BoxLayout(operationsBar, 1));
+        operationsBar.setLayout(new BoxLayout(operationsBar, BoxLayout.Y_AXIS));
 
         operationsBar.add(enemyFire);
         operationsBar.add(upgrade);
@@ -155,13 +245,86 @@ public class GameFrame extends JFrame {
         operationsBar.add(saveAndExit);
     } // createOperations
 
+    // MODIFIES: this
+    // EFFECTS: simulates an enemy firing a bullet
+    public void doEnemyFire() {
+        System.out.println("An enemy fires a bullet at you from the corner of the screen!"
+                + " That's one more hazard to avoid.");
+        gameInstance.enemyFire();
+        hazardsOnScreen.setText("Enemy bullets: " + gameInstance.getHazards().size());
+        statsBar.repaint();
+    } // doEnemyFire
+
+    // MODIFIES: this
+    // EFFECTS: collects an upgrade, and has no effect if player already is at upgrade level 8
+    public void doUpgrade() {
+        if (gameInstance.getUpgradeLevel() < Game.MAX_UPGRADE_LEVEL) {
+            System.out.println("Wow! You collected an upgrade, increasing your upgrade level!");
+        } else {
+            System.out.println("You're already at max upgrade level; it had no effect!");
+        } // if... else
+        gameInstance.collectUpgrade();
+        upgradeLevel.setText("Upgrade level: " + gameInstance.getUpgradeLevel());
+        statsBar.repaint();
+    } // doCollectUpgrade
+
+    // MODIFIES: this
+    // EFFECTS: changes the player's current weapon type to the opposite type
+    public void doChangeWeaponType() {
+        System.out.println("You changed your weapon type.");
+        gameInstance.changeWeaponType();
+        weaponType.setText("Weapon type: " + gameInstance.getWeaponType());
+        statsBar.repaint();
+    } // doChangeWeaponType
+
+    // MODIFIES: this
+    // EFFECTS: collects a Firewall, and uses a Firewall if player already has max amount of Firewalls
+    public void doCollectFirewall() {
+        if (gameInstance.getFirewalls() < Game.MAX_FIREWALLS) {
+            System.out.println("Wow! You collected a firewall!");
+        } else {
+            System.out.println("You can't hold any more firewalls!"
+                    + " The one you just collected was used.");
+        } // if... else
+        gameInstance.collectFirewall();
+        firewallAmount.setText("Firewalls: " + gameInstance.getFirewalls());
+        hazardsOnScreen.setText("Enemy bullets: " + gameInstance.getHazards().size());
+        statsBar.repaint();
+    } // doCollectFirewall
+
+    // MODIFIES: this
+    // EFFECTS: uses a Firewall, clearing all hazards currently in the game
+    //          fails if the player has on firewalls
+    public void doUseFirewall() {
+        if (gameInstance.useFirewall()) {
+            System.out.println("You used a firewall, clearing the screen of all hazards.");
+            firewallAmount.setText("Firewalls: " + gameInstance.getFirewalls());
+            hazardsOnScreen.setText("Enemy bullets: " + gameInstance.getHazards().size());
+        } else {
+            System.out.println("You have no firewalls to use.");
+        } // if... else
+        statsBar.repaint();
+    } // doUseFirewall
+
+    // EFFECTS: saves the current game state to file and exits to main menu
+    private void doSaveAndExit() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(gameInstance);
+            jsonWriter.close();
+            System.out.println("Saved game to: " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        } // try... catch
+
+        loadMenu();
+    } // saveGame
+
     // REQUIRES: panel needs to have null layout
     // MODIFIES: this
-    // EFFECTS: adds button to panel at given x and y positions
-    public void addButton(JPanel panel, JButton button, int x, int y) {
-        button.setBounds(x, y, BUTTON_WIDTH, BUTTON_HEIGHT);
+    // EFFECTS: adds button of given size to panel at given x and y positions
+    public void addButton(JPanel panel, JButton button, int posX, int posY, int width, int height) {
+        button.setBounds(posX, posY, width, height);
         panel.add(button);
-        panel.repaint();
     } // addButton
-
 } // GameFrame
