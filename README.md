@@ -3,18 +3,13 @@
 
 ***What will it do?***
 
-My project will be a boss fight and "bullet-hell" type game, where the player
-controls a character that attacks automatically, on a vertically scrolling screen. 
-The player must:
-- Avoid enemy projectiles, hence the name "bullet hell"
-- Deal as much damage to the boss enemy as they can in the time provided
-- Collect different drops from the boss as it takes damage for a boost in score
-  or combat ability
-
-There will be a single boss enemy to fight, with a time limit of 3 minutes to battle it.
-As the name is a pun on the Windows x64 system and the Windows Defender antivirus, 
-the game will be computer themed. The player will control an antivirus icon, 
-and the boss will be a graphical depiction of a virus.
+My project will be a "bullet-hell" type game focusing mostly on evasion where the player
+controls a character with 4-directional movement. Bullets on screen will bounce off the walls.
+The player can:
+- Manually add hazardous projectiles to the screen
+- Avoid projectiles added to the screen, hence the name "bullet hell"
+- Manually and permanently (within one game) increase the speed of bullets added for a challenge
+- Manually store and use "firewalls," functioning as bombs to clear the screen of projectiles
 
 ***Who will use it?***
 
@@ -28,26 +23,21 @@ When I was young, I enjoyed and was skilled at bullet hell games such as Striker
 However, my favorite games, the *"iFighter"* series on mobile devices, were discontinued 
 without warning. No other game I played could take iFighter's place, so I eventually 
 became distant from the bullet hell genre as a whole. I want to make a game that will 
-bring others similar amounts of enjoyment that iFighter brought me. 
+be able to sharpen both my and others' skills in avoiding projectiles in bullet hell games,
+to improve enjoyment of any bullet hell games played in the future. 
 I also want to incorporate my Computer Science background into this game, 
 to combine two of my favorite things.
 
 ## User Stories
 
 - As a user, I want to be able to view the controls from the main menu.
-- As a user, I want to be able to start a game, although it will be
-wholly text based for now.
-- As a user, I want to be able to simulate the enemy firing bullets, adding the
+- As a user, I want to be able to start a game.
+- As a user, I want to be able to simulate enemy projectiles, adding the
   bullet to a "hazards" field in the game class.
-- As a user, I want to be able to collect upgrades up to a maximum limit of 8.
-- As a user, I want to be able to change my weapon type from 2 choices.
+- As a user, I want to be able to increase bullet speed up to a maximum limit of 8.
 - As a user, I want to be able to collect and use bombs (the firewall), which
   will clear all hazards from the game.
-- As a user, I want the current state of the game (upgrade level, weapon type,
+- As a user, I want the current state of the game (bullet speed, weapon type,
   firewall amount, amount of hazards) to save after returning to the main menu.
 - As a user, on the main menu, I want the option to either load the previous 
   saved game or start a new game.
-
-NOTE: In the final game, hazards will not be saved. Instead, the game will save
-at the last HP threshold the player reduced the boss to, and starting a game there 
-will give a brief grace period where neither you nor the boss can attack.

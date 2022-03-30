@@ -1,37 +1,45 @@
 package model;
 
+import ui.GameFrame;
+
 import org.json.*;
 import persistence.Writable;
 
 import java.util.ArrayList;
+// TODO: add bullet bouncing, add an update method, add player entity,
+//       update testing after all that is done, overhaul json (save bullets, save player)
+
+//  TODO: rework how adding bullet speed works - have a check to see if it is negative or not
 
 // represents the game state
 public class Game implements Writable {
 
     // constants
     public static final int MAX_FIREWALLS = 3;
-    public static final int MAX_UPGRADE_LEVEL = 8;
+    public static final int MAX_BULLET_SPEED = 8;
+    public static final int SPAWN_LOWER_BOUND_X = 50;
+    public static final int SPAWN_UPPER_BOUND_X = 500;
+    private int width = GameFrame.GAME_WINDOW_WIDTH;
+    private int height = GameFrame.GAME_WINDOW_HEIGHT;
 
     // fields
     private ArrayList<Bullet> hazards;
     private Bullet enemyShot;
-    private String weaponType;
-    private int upgradeLevel;
+    private int bulletSpeed;
     private int firewalls;
 
-    // EFFECTS: creates a new game, where the game starts with no bullets, and the player starts with streamlined
-    //          weapon type, one upgrade level, and no firewalls
+    // EFFECTS: creates a new game, where the game starts with no bullets, one bullet speed, and no firewalls
     public Game() {
         this.hazards = new ArrayList<>();
-        this.weaponType = "streamlined";
-        this.upgradeLevel = 1;
+        this.bulletSpeed = 1;
         this.firewalls = 0;
     } // Game
 
     // MODIFIES: this
-    // EFFECTS: an enemy attacks from the top left corner, firing a hazardous bullet dealing 1 damage
+    // EFFECTS: an enemy attacks from the top of the screen, firing a hazardous bullet
     public void enemyFire() {
-        enemyShot = new Bullet(0, 0, 1);
+        int x = (int) ((Math.random() * (SPAWN_UPPER_BOUND_X - SPAWN_LOWER_BOUND_X)) + SPAWN_LOWER_BOUND_X);
+        enemyShot = new Bullet(x, 0);
         this.hazards.add(enemyShot);
     } // enemyFire
 
@@ -49,13 +57,13 @@ public class Game implements Writable {
     } // useFirewall
 
     // MODIFIES: this
-    // EFFECTS: increases the upgrade level by 1, up to a max of 8
-    //          no effect if upgrade level is already 8
-    public void collectUpgrade() {
-        if (this.upgradeLevel < MAX_UPGRADE_LEVEL) {
-            this.upgradeLevel += 1;
+    // EFFECTS: increases the bullet speed by 1, up to a max of 8
+    //          no effect if bullet speed is already 8
+    public void increaseBulletSpeed() {
+        if (this.bulletSpeed < MAX_BULLET_SPEED) {
+            this.bulletSpeed += 1;
         } // if
-    } // collectUpgrade
+    } // increaseBulletSpeed
 
     // MODIFIES: this
     // EFFECTS: increases the amount of firewalls by 1, up to a max of 3
@@ -68,21 +76,10 @@ public class Game implements Writable {
         this.firewalls += 1;
     } // collectFirewall
 
-    // MODIFIES: this
-    // EFFECTS: changes player's weapon to the opposite type
-    public void changeWeaponType() {
-        if (this.weaponType.equals("streamlined")) {
-            this.weaponType = "spread";
-        } else {
-            this.weaponType = "streamlined";
-        } // if... else
-    } // changeWeaponType
-
     @Override
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("weaponType", getWeaponType());
-        jsonObject.put("upgradeLevel", getUpgradeLevel());
+        jsonObject.put("bulletSpeed", getBulletSpeed());
         jsonObject.put("firewalls", getFirewalls());
         jsonObject.put("hazards", getHazards().size());
         return jsonObject; // stub
@@ -92,13 +89,12 @@ public class Game implements Writable {
     // EFFECTS: resets all relevant fields in game to their initial states for a new game
     public void newGame() {
         this.hazards.clear();
-        this.weaponType = "streamlined";
-        this.upgradeLevel = 1;
+        this.bulletSpeed = 1;
         this.firewalls = 0;
     } // newGame
 
-    public int getUpgradeLevel() {
-        return this.upgradeLevel;
+    public int getBulletSpeed() {
+        return this.bulletSpeed;
     } // getUpgrades
 
     public ArrayList<Bullet> getHazards() {
@@ -108,8 +104,4 @@ public class Game implements Writable {
     public int getFirewalls() {
         return this.firewalls;
     } // getFirewalls
-
-    public String getWeaponType() {
-        return this.weaponType;
-    } // getWeaponType
 } // Game

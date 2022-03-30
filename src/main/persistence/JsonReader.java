@@ -45,8 +45,7 @@ public class JsonReader {
     private Game parseGame(JSONObject jsonObject) {
         Game game = new Game();
 
-        loadWeaponType(game, jsonObject);
-        loadUpgradeLevel(game, jsonObject);
+        loadBulletSpeed(game, jsonObject);
         loadFirewalls(game, jsonObject);
         loadHazards(game, jsonObject);
 
@@ -54,24 +53,14 @@ public class JsonReader {
     } // parseGame
 
     // MODIFIES: game
-    // EFFECTS: parses the current weapon type from given JSON object and
+    // EFFECTS: parses the current bullet speed from given JSON object and
     //          adds it to the given game state
-    private void loadWeaponType(Game game, JSONObject jsonObject) {
-        String type = jsonObject.getString("weaponType");
-        if (!game.getWeaponType().equals(type)) {
-            game.changeWeaponType();
-        } // if
-    } // loadWeaponType
-
-    // MODIFIES: game
-    // EFFECTS: parses the current upgrade level from given JSON object and
-    //          adds it to the given game state
-    private void loadUpgradeLevel(Game game, JSONObject jsonObject) {
-        int level = jsonObject.getInt("upgradeLevel");
-        for (int current = game.getUpgradeLevel(); current < level; current++) {
-            game.collectUpgrade();
+    private void loadBulletSpeed(Game game, JSONObject jsonObject) {
+        int speed = jsonObject.getInt("bulletSpeed");
+        for (int current = game.getBulletSpeed(); current < speed; current++) {
+            game.increaseBulletSpeed();
         } // for
-    } // loadUpgradeLevel
+    } // loadBulletSpeed
 
     // MODIFIES: game
     // EFFECTS: parses the current firewall amount from given JSON object and

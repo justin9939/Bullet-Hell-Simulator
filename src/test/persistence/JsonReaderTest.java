@@ -26,8 +26,7 @@ public class JsonReaderTest extends JsonTest {
         JsonReader reader = new JsonReader("./data/testReaderNewGame.json");
         try {
             Game game = reader.read();
-            checkWeaponType("streamlined", game);
-            checkUpgradeLevel(1, game);
+            checkBulletSpeed(1, game);
             checkFirewallAmount(0, game);
             checkHazards(0, game);
         } catch (IOException e) {
@@ -40,8 +39,7 @@ public class JsonReaderTest extends JsonTest {
         JsonReader reader = new JsonReader("./data/testReaderPlayedGame.json");
         try {
             Game game = reader.read();
-            checkWeaponType("spread", game);
-            checkUpgradeLevel(8, game);
+            checkBulletSpeed(8, game);
             checkFirewallAmount(3, game);
             checkHazards(9, game);
         } catch (IOException e) {

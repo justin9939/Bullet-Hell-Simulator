@@ -38,18 +38,19 @@ public class GameFrame extends JFrame implements ActionListener {
     private JButton loadGame = new JButton("Load Game");
     private JButton controls = new JButton("Controls");
     private JButton enemyFire = new JButton("Enemy Fire");
-    private JButton upgrade = new JButton("Collect Upgrade");
+    private JButton increaseBulletSpeed = new JButton("Faster Bullets");
     private JButton collectFirewall = new JButton("Collect Firewall");
     private JButton useFirewall = new JButton("Use Firewall");
-    private JButton changeWeapon = new JButton("Change Weapon");
     private JButton saveAndExit = new JButton("Save and Exit");
 
     private JLabel hazardsOnScreen;
-    private JLabel upgradeLevel;
-    private JLabel weaponType;
+    private JLabel bulletSpeed;
     private JLabel firewallAmount;
 
-    // TODO: for saving, put the try catch only around the code when you do it
+    // TODO: convert all game buttons but "saveAndExit" into keyEvents instead
+    // TODO: add a separate JPanel for the game, since it will be keyEvents instead
+    // TODO: make a separate pause screen JPanel with controls + saveAndExit
+    // TODO: Finish controls screen
     // TODO: implement all JPanels in the frame class, "one class per frame"
 
     // EFFECTS: creates a new game window where everything takes place
@@ -73,8 +74,7 @@ public class GameFrame extends JFrame implements ActionListener {
         loadGame.setActionCommand("load");
         controls.setActionCommand("controls");
         enemyFire.setActionCommand("fire");
-        upgrade.setActionCommand("upgrade");
-        changeWeapon.setActionCommand("weapon");
+        increaseBulletSpeed.setActionCommand("speed");
         collectFirewall.setActionCommand("collect");
         useFirewall.setActionCommand("use");
         saveAndExit.setActionCommand("save");
@@ -83,8 +83,7 @@ public class GameFrame extends JFrame implements ActionListener {
         loadGame.addActionListener(this);
         controls.addActionListener(this);
         enemyFire.addActionListener(this);
-        upgrade.addActionListener(this);
-        changeWeapon.addActionListener(this);
+        increaseBulletSpeed.addActionListener(this);
         collectFirewall.addActionListener(this);
         useFirewall.addActionListener(this);
         saveAndExit.addActionListener(this);
@@ -119,11 +118,8 @@ public class GameFrame extends JFrame implements ActionListener {
             case "fire":
                 doEnemyFire();
                 break;
-            case "upgrade":
-                doUpgrade();
-                break;
-            case "weapon":
-                doChangeWeaponType();
+            case "speed":
+                doIncreaseSpeed();
                 break;
             case "collect":
                 doCollectFirewall();
@@ -173,7 +169,6 @@ public class GameFrame extends JFrame implements ActionListener {
     public void loadGame() throws FileNotFoundException {
         //System.out.println("Loaded game"); // stub
         this.getContentPane().removeAll();
-        this.add(new BackgroundPanel("data/gameImage.jpg", GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT - 65));
 
         if (loadSave) {
             try {
@@ -198,10 +193,10 @@ public class GameFrame extends JFrame implements ActionListener {
         gameScreen.setBounds(0, 0, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
         gameScreen.setLayout(new BorderLayout());
         createStats();
-        gameScreen.add(statsBar, BorderLayout.SOUTH);
+        gameScreen.add(statsBar, BorderLayout.NORTH);
 
         createOperations();
-        gameScreen.add(operationsBar, BorderLayout.NORTH);
+        gameScreen.add(operationsBar, BorderLayout.SOUTH);
     } // createGame
 
     // EFFECTS: creates the bar showing player stats in the game on the top edge
@@ -213,21 +208,17 @@ public class GameFrame extends JFrame implements ActionListener {
         hazardsOnScreen = new JLabel("Enemy bullets: " + gameInstance.getHazards().size());
         hazardsOnScreen.setFont(new Font("Serif", Font.PLAIN, FONT_SIZE));
         hazardsOnScreen.setForeground(Color.red);
-        upgradeLevel = new JLabel("Upgrade level: " + gameInstance.getUpgradeLevel());
-        upgradeLevel.setFont(new Font("Serif", Font.PLAIN, FONT_SIZE));
-        upgradeLevel.setForeground(Color.yellow);
-        weaponType = new JLabel("Weapon type: " + gameInstance.getWeaponType());
-        weaponType.setFont(new Font("Serif", Font.PLAIN, FONT_SIZE));
-        weaponType.setForeground(Color.green);
+        bulletSpeed = new JLabel("Bullet Speed: " + gameInstance.getBulletSpeed());
+        bulletSpeed.setFont(new Font("Serif", Font.PLAIN, FONT_SIZE));
+        bulletSpeed.setForeground(Color.yellow);
         firewallAmount = new JLabel("Firewalls: " + gameInstance.getFirewalls());
         firewallAmount.setFont(new Font("Serif", Font.PLAIN, FONT_SIZE));
         firewallAmount.setForeground(Color.orange);
 
         statsBar.add(hazardsOnScreen);
         statsBar.add(Box.createHorizontalStrut(30));
-        statsBar.add(upgradeLevel);
+        statsBar.add(bulletSpeed);
         statsBar.add(Box.createHorizontalStrut(30));
-        statsBar.add(weaponType);
         statsBar.add(Box.createHorizontalStrut(30));
         statsBar.add(firewallAmount);
     } // createOperations
@@ -238,8 +229,7 @@ public class GameFrame extends JFrame implements ActionListener {
         operationsBar.setLayout(new BoxLayout(operationsBar, BoxLayout.Y_AXIS));
 
         operationsBar.add(enemyFire);
-        operationsBar.add(upgrade);
-        operationsBar.add(changeWeapon);
+        operationsBar.add(increaseBulletSpeed);
         operationsBar.add(collectFirewall);
         operationsBar.add(useFirewall);
         operationsBar.add(saveAndExit);
@@ -256,26 +246,17 @@ public class GameFrame extends JFrame implements ActionListener {
     } // doEnemyFire
 
     // MODIFIES: this
-    // EFFECTS: collects an upgrade, and has no effect if player already is at upgrade level 8
-    public void doUpgrade() {
-        if (gameInstance.getUpgradeLevel() < Game.MAX_UPGRADE_LEVEL) {
-            System.out.println("Wow! You collected an upgrade, increasing your upgrade level!");
+    // EFFECTS: increases bullet speed, has no effect if speed is already at max speed of 8
+    public void doIncreaseSpeed() {
+        if (gameInstance.getBulletSpeed() < Game.MAX_BULLET_SPEED) {
+            System.out.println("Bullets are faster now!");
         } else {
-            System.out.println("You're already at max upgrade level; it had no effect!");
+            System.out.println("Bullets can't get any faster!");
         } // if... else
-        gameInstance.collectUpgrade();
-        upgradeLevel.setText("Upgrade level: " + gameInstance.getUpgradeLevel());
+        gameInstance.increaseBulletSpeed();
+        bulletSpeed.setText("Bullet Speed: " + gameInstance.getBulletSpeed());
         statsBar.repaint();
-    } // doCollectUpgrade
-
-    // MODIFIES: this
-    // EFFECTS: changes the player's current weapon type to the opposite type
-    public void doChangeWeaponType() {
-        System.out.println("You changed your weapon type.");
-        gameInstance.changeWeaponType();
-        weaponType.setText("Weapon type: " + gameInstance.getWeaponType());
-        statsBar.repaint();
-    } // doChangeWeaponType
+    } // doIncreaseSpeed
 
     // MODIFIES: this
     // EFFECTS: collects a Firewall, and uses a Firewall if player already has max amount of Firewalls

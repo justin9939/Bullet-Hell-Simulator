@@ -33,8 +33,7 @@ public class JsonWriterTest extends JsonTest {
 
             JsonReader reader = new JsonReader("./data/testWriterNewGame.json");
             game = reader.read();
-            checkWeaponType("streamlined", game);
-            checkUpgradeLevel(1, game);
+            checkBulletSpeed(1, game);
             checkFirewallAmount(0, game);
             checkHazards(0, game);
         } catch (IOException e) {
@@ -47,11 +46,10 @@ public class JsonWriterTest extends JsonTest {
         try {
             Game game = new Game();
             for (int i = 1; i < 8; i++) {
-                game.collectUpgrade(); // 8
+                game.increaseBulletSpeed(); // 8
                 game.enemyFire(); // 7
             } // for
 
-            game.changeWeaponType();
             game.collectFirewall();
 
             JsonWriter writer = new JsonWriter("./data/testWriterPlayedGame.json");
@@ -61,8 +59,7 @@ public class JsonWriterTest extends JsonTest {
 
             JsonReader reader = new JsonReader("./data/testWriterPlayedGame.json");
             game = reader.read();
-            checkWeaponType("spread", game);
-            checkUpgradeLevel(8, game);
+            checkBulletSpeed(8, game);
             checkFirewallAmount(1, game);
             checkHazards(7, game);
         } catch (IOException e) {
