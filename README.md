@@ -1,6 +1,5 @@
 # My Personal Project: 
 ## Bullet Hell Simulator
-// TODO: update controls image, update game image
 ***What will it do?***
 
 My project will be a sandbox/simulator, where the player can simulate scenarios common
@@ -39,3 +38,22 @@ relive memories of a discontinued game.
   firewall amount, amount of hazards) to save after returning to the main menu.
 - As a user, on the main menu, I want the option to either load the previous 
   saved game or start a new game.
+
+## Phase 4: Task 2
+Event Log:
+Thu Mar 31 16:55:46 PDT 2022
+Enemy has fired bullet.
+Thu Mar 31 16:55:46 PDT 2022
+Enemy has fired bullet.
+Thu Mar 31 16:55:46 PDT 2022
+Enemy has fired bullet.
+Thu Mar 31 16:55:49 PDT 2022
+Enemy has fired bullet.
+Thu Mar 31 16:55:50 PDT 2022
+Enemy has fired bullet.
+Thu Mar 31 16:55:54 PDT 2022
+Firewall used, all enemy bullets cleared.
+
+Note that I manually add "Event Log:" in the part where I print out the events when the game closes.
+The game adds an event every time a bullet is added to the game, and also when a firewall is used to
+clear the added bullets.

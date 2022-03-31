@@ -1,6 +1,6 @@
 {
-    "hazards": 1,
-    "upgradeLevel": 8,
-    "weaponType": "streamlined",
-    "firewalls": 0
+    "hazards": 3,
+    "upgradeLevel": 3,
+    "weaponType": "spread",
+    "firewalls": 2
 }

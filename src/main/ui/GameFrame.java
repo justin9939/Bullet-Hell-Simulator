@@ -1,6 +1,8 @@
 package ui;
 
 import model.Game;
+import model.Event;
+import model.EventLog;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -51,7 +53,15 @@ public class GameFrame extends JFrame implements ActionListener {
     // EFFECTS: creates a new game window where everything takes place
     public GameFrame() {
         super("Windows Fighter x64");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                System.out.println("\nEvent Log:");
+                printEvents(EventLog.getInstance());
+                System.exit(0);
+            }
+        });
         this.setSize(GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
         this.setResizable(false);
 
@@ -322,4 +332,12 @@ public class GameFrame extends JFrame implements ActionListener {
         button.setBounds(posX, posY, width, height);
         panel.add(button);
     } // addButton
+
+    // EFFECTS: prints out all events in the event log
+    // based off AlarmSystem's printLog method
+    public void printEvents(EventLog el) {
+        for (Event nextEvent : el) {
+            System.out.println(nextEvent.toString());
+        } // for
+    } // printEvents
 } // GameFrame
