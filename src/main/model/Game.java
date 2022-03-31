@@ -33,6 +33,7 @@ public class Game implements Writable {
     public void enemyFire() {
         enemyShot = new Bullet(0, 0, 1);
         this.hazards.add(enemyShot);
+        EventLog.getInstance().logEvent(new Event("Enemy has fired bullet."));
     } // enemyFire
 
     // REQUIRES: firewallAmount > 0
@@ -42,6 +43,7 @@ public class Game implements Writable {
     public boolean useFirewall() {
         if (this.firewalls >= 1) {
             this.hazards.clear();
+            EventLog.getInstance().logEvent(new Event("Firewall used, all enemy bullets cleared."));
             this.firewalls -= 1;
             return true;
         } // if

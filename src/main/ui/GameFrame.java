@@ -48,9 +48,6 @@ public class GameFrame extends JFrame implements ActionListener {
     private JLabel weaponType;
     private JLabel firewallAmount;
 
-    // TODO: for saving, put the try catch only around the code when you do it
-    // TODO: implement all JPanels in the frame class, "one class per frame"
-
     // EFFECTS: creates a new game window where everything takes place
     public GameFrame() {
         super("Windows Fighter x64");

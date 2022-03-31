@@ -155,7 +155,7 @@ class GameTest {
 
         assertEquals(1, testGame.getUpgradeLevel());
         assertEquals(0, testGame.getFirewalls());
-        assertEquals("streamline", testGame.getWeaponType());
+        assertEquals("streamlined", testGame.getWeaponType());
         assertEquals(0, testGame.getHazards().size());
     } // newGameTest
 
