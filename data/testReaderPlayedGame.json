@@ -1,5 +1,6 @@
 {
-  "bulletSpeed": 8,
+  "weaponType": "spread",
+  "upgradeLevel": 8,
   "firewalls": 3,
   "hazards": 9
 }

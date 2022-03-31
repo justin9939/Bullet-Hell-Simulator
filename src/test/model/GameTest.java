@@ -9,7 +9,7 @@ class GameTest {
 
     Game testGame;
     int maxFirewalls = Game.MAX_FIREWALLS;
-    int maxBulletSpeed = Game.MAX_BULLET_SPEED;
+    int maxUpgradeLevel = Game.MAX_UPGRADE_LEVEL;
 
     @BeforeEach
     void setUp() {
@@ -18,8 +18,9 @@ class GameTest {
 
     @Test
     void constructorTest() {
-        assertEquals(1, testGame.getBulletSpeed());
+        assertEquals(1, testGame.getUpgradeLevel());
         assertEquals(0, testGame.getFirewalls());
+        assertEquals("streamlined", testGame.getWeaponType());
         assertEquals(0, testGame.getHazards().size());
     } // constructorTest
 
@@ -45,28 +46,39 @@ class GameTest {
     } // enemyFireTest
 
     @Test
-    void increaseBulletSpeedTest() {
-        assertEquals(1, testGame.getBulletSpeed());
+    void changeWeaponTest() {
+        assertEquals("streamlined", testGame.getWeaponType());
 
-        testGame.increaseBulletSpeed();
+        testGame.changeWeaponType();
+        assertEquals("spread", testGame.getWeaponType());
 
-        assertEquals(2, testGame.getBulletSpeed());
+        testGame.changeWeaponType();
+        assertEquals("streamlined", testGame.getWeaponType());
+    } // changeWeaponTest
 
-        testGame.increaseBulletSpeed();
-        testGame.increaseBulletSpeed();
+    @Test
+    void collectUpgradeTest() {
+        assertEquals(1, testGame.getUpgradeLevel());
 
-        assertEquals(4, testGame.getBulletSpeed());
+        testGame.collectUpgrade();
 
-        testGame.increaseBulletSpeed();
-        testGame.increaseBulletSpeed();
-        testGame.increaseBulletSpeed();
-        testGame.increaseBulletSpeed();
+        assertEquals(2, testGame.getUpgradeLevel());
 
-        assertEquals(maxBulletSpeed, testGame.getBulletSpeed());
+        testGame.collectUpgrade();
+        testGame.collectUpgrade();
 
-        testGame.increaseBulletSpeed();
+        assertEquals(4, testGame.getUpgradeLevel());
 
-        assertEquals(maxBulletSpeed, testGame.getBulletSpeed());
+        testGame.collectUpgrade();
+        testGame.collectUpgrade();
+        testGame.collectUpgrade();
+        testGame.collectUpgrade();
+
+        assertEquals(maxUpgradeLevel, testGame.getUpgradeLevel());
+
+        testGame.collectUpgrade();
+
+        assertEquals(maxUpgradeLevel, testGame.getUpgradeLevel());
     } // collectUpgradeTest
 
     @Test
@@ -129,18 +141,21 @@ class GameTest {
 
     @Test
     void newGameTest() {
-        testGame.increaseBulletSpeed();
+        testGame.collectUpgrade();
         testGame.collectFirewall();
+        testGame.changeWeaponType();
         testGame.enemyFire();
 
-        assertEquals(2, testGame.getBulletSpeed());
+        assertEquals(2, testGame.getUpgradeLevel());
         assertEquals(1, testGame.getFirewalls());
+        assertEquals("spread", testGame.getWeaponType());
         assertEquals(1, testGame.getHazards().size());
 
         testGame.newGame();
 
-        assertEquals(1, testGame.getBulletSpeed());
+        assertEquals(1, testGame.getUpgradeLevel());
         assertEquals(0, testGame.getFirewalls());
+        assertEquals("streamline", testGame.getWeaponType());
         assertEquals(0, testGame.getHazards().size());
     } // newGameTest
 

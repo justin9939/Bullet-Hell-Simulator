@@ -1,5 +1,6 @@
 {
     "hazards": 0,
-    "firewalls": 0,
-    "bulletSpeed": 1
+    "upgradeLevel": 1,
+    "weaponType": "streamlined",
+    "firewalls": 0
 }
