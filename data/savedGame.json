@@ -1,6 +1,6 @@
 {
-    "hazards": 3,
+    "hazards": 2,
     "upgradeLevel": 3,
     "weaponType": "spread",
-    "firewalls": 2
+    "firewalls": 1
 }

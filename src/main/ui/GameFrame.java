@@ -210,19 +210,26 @@ public class GameFrame extends JFrame implements ActionListener {
 
     // EFFECTS: creates the bar showing player stats in the game on the top edge
     // based on ScorePanel() from Space Invaders
+    // method length suppression because there's no way to simplify since each JLabel added needs
+    // to call a specialized thing
+    @SuppressWarnings("methodlength")
     public void createStats() {
         statsBar = new JPanel();
         statsBar.setBackground(new Color(180, 180, 180));
         statsBar.setLayout(new FlowLayout());
+
         hazardsOnScreen = new JLabel("Enemy bullets: " + gameInstance.getHazards().size());
         hazardsOnScreen.setFont(new Font("Serif", Font.PLAIN, FONT_SIZE));
         hazardsOnScreen.setForeground(Color.red);
+
         upgradeLevel = new JLabel("Upgrade level: " + gameInstance.getUpgradeLevel());
         upgradeLevel.setFont(new Font("Serif", Font.PLAIN, FONT_SIZE));
         upgradeLevel.setForeground(Color.yellow);
+
         weaponType = new JLabel("Weapon type: " + gameInstance.getWeaponType());
         weaponType.setFont(new Font("Serif", Font.PLAIN, FONT_SIZE));
         weaponType.setForeground(Color.green);
+
         firewallAmount = new JLabel("Firewalls: " + gameInstance.getFirewalls());
         firewallAmount.setFont(new Font("Serif", Font.PLAIN, FONT_SIZE));
         firewallAmount.setForeground(Color.orange);

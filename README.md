@@ -57,3 +57,22 @@ Firewall used, all enemy bullets cleared.
 Note that I manually add "Event Log:" in the part where I print out the events when the game closes.
 The game adds an event every time a bullet is added to the game, and also when a firewall is used to
 clear the added bullets.
+
+## Phase 4: Task 3
+In terms of design, my project mainly revolves around the classes Game and GameFrame. The Bullet class serves
+as the X that can be added to a Y, the Game class. Game is where all the program's inner workings lie, so 
+it calls methods from EventLog to log the events of adding and removing bullets, and implements Writable to
+be able to convert game data to JSON for reading and writing. 
+JSONWriter and JSONReader also implement Writable to facilitate saving and loading behaviour, and are present in
+GameFrame where saving and loading are connected to buttons. As GameFrame is where the game's graphical portion 
+lies, it will have a field of type Game. It's also behind the functionality of printing the EventLog when the
+window closes and the program is exited. ControlsFrame and BackgroundPanel are separate classes whose constructors
+are called in GameFrame to reduce some repetition.
+
+Overall, I think my project design is pretty solid, since there isn't any obvious coupling, so changes can
+safely be made to one class without breaking other classes. However, if I had more time, I would have:
+- Either made statsBar into its own class, or made some kind of helper to reduce the method length of creating 
+the stats bar
+- Created a separate GamePanel class also to reduce method length as well as the size of the GameFrame class,
+I currently have most of the UI stuff in my GameFrame class because I was unable to get the passing of values
+for multiple JPanels with functionality like buttons to work properly

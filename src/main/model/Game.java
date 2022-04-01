@@ -14,7 +14,6 @@ public class Game implements Writable {
 
     // fields
     private ArrayList<Bullet> hazards;
-    private Bullet enemyShot;
     private String weaponType;
     private int upgradeLevel;
     private int firewalls;
@@ -31,7 +30,7 @@ public class Game implements Writable {
     // MODIFIES: this
     // EFFECTS: an enemy attacks from the top left corner, firing a hazardous bullet dealing 1 damage
     public void enemyFire() {
-        enemyShot = new Bullet(0, 0, 1);
+        Bullet enemyShot = new Bullet(0, 0, 1);
         this.hazards.add(enemyShot);
         EventLog.getInstance().logEvent(new Event("Enemy has fired bullet."));
     } // enemyFire

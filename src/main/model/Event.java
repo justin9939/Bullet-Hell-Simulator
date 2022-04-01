@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Represents an alarm system event.
+ * Represents an event within the game.
  */
 // from AlarmSystem's Event
 public class Event {
@@ -34,22 +34,24 @@ public class Event {
      * Gets the description of this event.
      * @return  the description of the event
      */
-    public String getDescription () {
+    public String getDescription() {
         return description;
     } // getDescription
 
     @Override
     public boolean equals(Object other) {
-        if (other == null)
+        if (other == null) {
             return false;
+        } // if
 
-        if (other.getClass() != this.getClass())
+        if (other.getClass() != this.getClass()) {
             return false;
+        } // if
 
         Event otherEvent = (Event) other;
 
-        return (this.dateLogged.equals(otherEvent.dateLogged) &&
-                this.description.equals(otherEvent.description));
+        return (this.dateLogged.equals(otherEvent.dateLogged)
+                && this.description.equals(otherEvent.description));
     } // equals
 
     @Override
