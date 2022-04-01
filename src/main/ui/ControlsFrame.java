@@ -8,6 +8,7 @@ public class ControlsFrame extends JFrame {
     private int controlsWidth = GameFrame.GAME_WINDOW_WIDTH;
     private int controlsHeight = GameFrame.GAME_WINDOW_HEIGHT;
 
+    // EFFECTS: creates a new window displaying the controls
     public ControlsFrame() {
         super("Controls");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

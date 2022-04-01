@@ -318,6 +318,7 @@ public class GameFrame extends JFrame implements ActionListener {
         statsBar.repaint();
     } // doUseFirewall
 
+    // MODIFIES: this
     // EFFECTS: saves the current game state to file and exits to main menu
     private void doSaveAndExit() {
         try {

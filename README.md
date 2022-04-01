@@ -67,12 +67,13 @@ JSONWriter and JSONReader also implement Writable to facilitate saving and loadi
 GameFrame where saving and loading are connected to buttons. As GameFrame is where the game's graphical portion 
 lies, it will have a field of type Game. It's also behind the functionality of printing the EventLog when the
 window closes and the program is exited. ControlsFrame and BackgroundPanel are separate classes whose constructors
-are called in GameFrame to reduce some repetition.
+are called in GameFrame to reduce some repetition. 
 
-Overall, I think my project design is pretty solid, since there isn't any obvious coupling, so changes can
-safely be made to one class without breaking other classes. However, if I had more time, I would have:
+If I had more time, I would have:
 - Either made statsBar into its own class, or made some kind of helper to reduce the method length of creating 
 the stats bar
 - Created a separate GamePanel class also to reduce method length as well as the size of the GameFrame class,
 I currently have most of the UI stuff in my GameFrame class because I was unable to get the passing of values
 for multiple JPanels with functionality like buttons to work properly
+- Utilize and expand upon the Bullet class more, maybe by making them spawn in random locations and saying where
+they spawned
